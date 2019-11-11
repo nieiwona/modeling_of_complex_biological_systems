@@ -8,6 +8,7 @@ library(tidyverse)
 library(edgeR)
 library(Rtsne)
 library(data.table)
+library(gplots)
 
 # Bladder Cancer Gene Expression
 data(bladderdata)
@@ -27,6 +28,7 @@ head(pheno)
 
 # problem1
 # I've used http://bioconductor.org/packages/release/bioc/vignettes/BatchQC/inst/doc/BatchQC_examples.html
+# The table is in Goździewska_problem1.1.pdf but I added all plots, because this function generates very intersting data
 batch <- pheno$batch  
 condition <- pheno$cancer
 batchQC(edata, batch=batch, condition=condition, view_report=TRUE, interactive=TRUE)
@@ -53,22 +55,20 @@ ggplot(mod_tidy %>% filter(term == "as.factor(pheno$cancer)Cancer")) + geom_hist
 
 
 #problem2.1
+cluster <- kmeans(edata, centers = 5)
 
 my_palette <- colorRampPalette(c("blue", "white", "green", "darkorange", "purple"))(n = 299)
 
 # afterwards I convert png to pdf 
-png("./problem2_1.png",height=700,width=700)
-heatmap.2(as.matrix(edata),
+png("Goździewska_problem2.2.png",height=700,width=700)
+heatmap.2(as.matrix(cluster$centers),
           main = "Bladder Cancer Data Clustered", 
           trace="none",        
           margins =c(12,9),    
           col=my_palette,       
           dendrogram="none",     
-          scale = "row",
-          Colv=FALSE,
-          Rowv=TRUE)
+          scale = "row")
 dev.off()
-
 
 # Empirical Bayes
 batch = pheno$batch
@@ -115,7 +115,7 @@ dev.off()
 # problem3
 pcor <- cor(edata, method = "pearson")
 
-png("Goździewska_problem3.png",height=700,width=700)
+png("./Goździewska_problem3.png",height=700,width=700)
 heatmap.2(as.matrix(pcor),
           main = "Bladder Cancer Data Clustered", 
           trace="none",        
