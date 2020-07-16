@@ -27,8 +27,6 @@ head(pheno)
 
 
 # problem1
-# I've used http://bioconductor.org/packages/release/bioc/vignettes/BatchQC/inst/doc/BatchQC_examples.html
-# The table is in Goździewska_problem1.1.pdf but I added all plots, because this function generates very intersting data
 batch <- pheno$batch  
 condition <- pheno$cancer
 batchQC(edata, batch=batch, condition=condition, view_report=TRUE, interactive=TRUE)
